@@ -1,0 +1,12 @@
+/* Simple fixed header with top-right logout */
+.app-header {
+	position: sticky;
+	top: 0;
+	z-index: 1030; /* above content, near .navbar default */
+}
+
+/* Slightly larger emoji icon while we keep it simple */
+.btn[title="View Cart"] { font-size: 1.1rem; }
+
+.brand-logo { font-size: 1.25rem; }
+

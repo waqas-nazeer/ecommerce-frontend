@@ -34,7 +34,7 @@ export class AuthService {
   // ✅ Remove token and redirect
   logout(): void {
     localStorage.removeItem('authToken');
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login'], { replaceUrl: true });
   }
 
   // ✅ Check if logged in

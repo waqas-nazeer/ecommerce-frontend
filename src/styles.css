@@ -1,2 +1,32 @@
 /* You can add global styles to this file, and also import other style files */
 @import "bootstrap/dist/css/bootstrap.min.css";
+
+/* Global theme tweaks */
+body { background-color: #f8f9fa; }
+.container { max-width: 1140px; }
+.card { border-radius: .5rem; }
+.btn-primary { box-shadow: 0 .125rem .25rem rgba(13,110,253,.3); }
+
+/* Custom gradient backgrounds */
+.bg-gradient-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.bg-gradient-success {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+/* Enhanced form styling */
+.form-control-lg:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+.card.shadow-lg {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card.shadow-lg:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 1rem 3rem rgba(0,0,0,0.175) !important;
+}

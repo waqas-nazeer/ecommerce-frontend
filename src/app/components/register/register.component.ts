@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { ToastService } from '../../services/toast.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -17,7 +18,11 @@ export class RegisterComponent {
     password: ['', Validators.required]
   });
 
-  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {}
+  constructor(
+    private fb: FormBuilder, 
+    private auth: AuthService,
+     private router: Router,
+      private toast: ToastService) {}
 
 onRegister() {
   if (this.registerForm.valid) {
@@ -29,11 +34,11 @@ onRegister() {
 
     this.auth.register(newUser).subscribe({
       next: () => {
-        alert('Registration successful! Please login.');
+        this.toast.success('Registration successful! Please login.');
         this.router.navigate(['/login']);
       },
       error: (err: any) => {
-        alert(err.error.message || 'Registration failed');
+        this.toast.error(err.error.message || 'Registration failed');
       }
     });
   }

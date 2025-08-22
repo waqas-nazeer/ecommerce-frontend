@@ -1,0 +1,98 @@
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="add-product-card">
+        <div class="card-header-section">
+          <div class="header-icon">
+            <i class="bi bi-plus-circle"></i>
+          </div>
+          <h2 class="text-center mb-2">Add New Product</h2>
+          <p class="text-center text-muted">Fill in the details below to add your product</p>
+        </div>
+        
+        <form [formGroup]="productForm" (ngSubmit)="addProduct()" class="product-form">
+          <!-- Product Name -->
+          <div class="form-group">
+            <label class="form-label">
+              <i class="bi bi-tag me-2"></i>Product Name
+            </label>
+            <input 
+              type="text" 
+              class="form-control custom-input" 
+              formControlName="name"
+              placeholder="Enter product name"
+              autocomplete="off">
+          </div>
+
+          <!-- Product Description -->
+          <div class="form-group">
+            <label class="form-label">
+              <i class="bi bi-card-text me-2"></i>Description
+            </label>
+            <textarea 
+              class="form-control custom-textarea" 
+              formControlName="description"
+              rows="3"
+              placeholder="Describe your product..."></textarea>
+          </div>
+
+          <!-- Price and Stock Row -->
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="form-label">
+                  <i class="bi bi-currency-dollar me-2"></i>Price
+                </label>
+                <div class="input-group">
+                  <span class="input-group-text">$</span>
+                  <input 
+                    type="number" 
+                    class="form-control custom-input" 
+                    formControlName="price"
+                    placeholder="0.00"
+                    step="0.01"
+                    min="0">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="form-label">
+                  <i class="bi bi-box me-2"></i>Stock
+                </label>
+                <input 
+                  type="number" 
+                  class="form-control custom-input" 
+                  formControlName="stock"
+                  placeholder="0"
+                  min="0">
+              </div>
+            </div>
+          </div>
+           <!-- Product Image -->
+  <div class="form-group">
+    <label class="form-label">
+      <i class="bi bi-image me-2"></i>Product Image
+    </label>
+    <input type="file" (change)="onFileSelected($event)" class="form-control custom-input" />
+  </div>
+
+  <div *ngIf="previewUrl" class="mt-3 text-center">
+    <img [src]="previewUrl" class="img-thumbnail" width="200" />
+  </div>
+
+          <!-- Submit Button -->
+          <div class="form-actions">
+            <button 
+              type="submit" 
+              class="btn btn-primary submit-btn" 
+              [disabled]="productForm.invalid">
+              <i class="bi bi-check-circle me-2"></i>
+              Add Product
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

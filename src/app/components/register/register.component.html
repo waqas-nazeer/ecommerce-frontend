@@ -1,26 +1,100 @@
 
-<div class="container mt-5" style="max-width:400px;">
-  <h2 class="mb-3 text-center">Register</h2>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="card shadow-lg border-0">
+        <div class="card-header bg-gradient-success text-white text-center py-4">
+          <div class="mb-3">
+            <i class="bi bi-person-plus" style="font-size: 3rem;"></i>
+          </div>
+          <h3 class="mb-0 fw-bold">Join Us</h3>
+          <p class="mb-0 opacity-75">Create your account today</p>
+        </div>
+        <div class="card-body p-4">
+          <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+            <!-- Username Field -->
+            <div class="mb-4">
+              <label for="username" class="form-label fw-semibold">
+                <i class="bi bi-person me-2"></i>Username
+              </label>
+              <input 
+                type="text" 
+                class="form-control form-control-lg" 
+                id="username"
+                formControlName="username"
+                [class.is-invalid]="registerForm.get('username')?.invalid && registerForm.get('username')?.touched"
+                placeholder="Choose a username"
+                autocomplete="username">
+              <div class="invalid-feedback" *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched">
+                <span *ngIf="registerForm.get('username')?.errors?.['required']">Username is required</span>
+              </div>
+            </div>
 
-  <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
-    <div class="mb-3">
-      <label>Username</label>
-      <input type="text" class="form-control" formControlName="username">
-    </div>
-    <div class="mb-3">
-      <label>Email</label>
-      <input type="email" class="form-control" formControlName="email">
-    </div>
-    <div class="mb-3">
-      <label>Password</label>
-      <input type="password" class="form-control" formControlName="password">
-    </div>
-    <button class="btn btn-success w-100" type="submit" [disabled]="registerForm.invalid">
-      Register
-    </button>
-  </form>
+            <!-- Email Field -->
+            <div class="mb-4">
+              <label for="email" class="form-label fw-semibold">
+                <i class="bi bi-envelope me-2"></i>Email Address
+              </label>
+              <input 
+                type="email" 
+                class="form-control form-control-lg" 
+                id="email"
+                formControlName="email"
+                [class.is-invalid]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+                placeholder="Enter your email"
+                autocomplete="email">
+              <div class="invalid-feedback" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+                <span *ngIf="registerForm.get('email')?.errors?.['required']">Email is required</span>
+                <span *ngIf="registerForm.get('email')?.errors?.['email']">Please enter a valid email address</span>
+              </div>
+            </div>
 
-  <p class="mt-3 text-center">
-    Already have an account? <a routerLink="/login">Login</a>
-  </p>
+            <!-- Password Field -->
+            <div class="mb-4">
+              <label for="password" class="form-label fw-semibold">
+                <i class="bi bi-lock me-2"></i>Password
+              </label>
+              <input 
+                type="password" 
+                class="form-control form-control-lg" 
+                id="password"
+                formControlName="password"
+                [class.is-invalid]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+                placeholder="Create a strong password"
+                autocomplete="new-password">
+              <div class="invalid-feedback" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+                <span *ngIf="registerForm.get('password')?.errors?.['required']">Password is required</span>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="d-grid mb-4">
+              <button 
+                type="submit" 
+                class="btn btn-success btn-lg fw-semibold" 
+                [disabled]="registerForm.invalid || registerForm.pristine">
+                <i class="bi bi-check-circle me-2"></i>
+                Create Account
+              </button>
+            </div>
+          </form>
+
+          <!-- Divider -->
+          <div class="text-center mb-4">
+            <span class="text-muted">or</span>
+          </div>
+
+          <!-- Login Link -->
+          <div class="text-center">
+            <p class="mb-0">
+              Already have an account? 
+              <a routerLink="/login" class="text-decoration-none fw-semibold">
+                Sign in here
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,1 +1,31 @@
+<header *ngIf="isLoggedIn()" class="app-header navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center" [routerLink]="['/products']">
+      <span class="brand-logo me-2">🛍️</span>
+      <span class="fw-bold">E‑Commerce</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" [routerLink]="['/products']">Products</a></li>
+        <li class="nav-item"><a class="nav-link" [routerLink]="['/addproducts']">Add Product</a></li>
+      </ul>
+    <form class="d-flex ms-auto align-items-center" role="search" (submit)="$event.preventDefault()">
+      <input class="form-control me-2" type="search" placeholder="Search products" aria-label="Search" [value]="searchQuery" (input)="onSearch($any($event.target).value)" />
+      <a class="btn btn-outline-light position-relative me-2" [routerLink]="['/cart']" title="View Cart">
+        🛍️
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" *ngIf="cartCount > 0">
+          {{ cartCount }}
+        </span>
+      </a>
+      <button type="button" class="btn btn-outline-light" (click)="onLogout()">Logout</button>
+    </form>
+    </div>
+  </div>
+</header>
+
 <router-outlet></router-outlet>
+
+<app-toast-container></app-toast-container>

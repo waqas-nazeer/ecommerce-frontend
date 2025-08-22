@@ -1,0 +1,32 @@
+.product-card {
+	transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.product-card:hover {
+	transform: translateY(-3px);
+	box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+}
+
+.product-media {
+	border-bottom: 1px solid rgba(0,0,0,0.05);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* Ensure image covers nicely */
+.object-fit-cover { object-fit: cover; }
+
+.price {
+	color: #0d6efd;
+}
+#productCarousel img {
+	height: 400px;
+	object-fit: cover;
+  }
+  
+  .carousel-caption {
+	background: rgba(0, 0, 0, 0.5);
+	padding: 1rem 1.5rem;
+	border-radius: 0.5rem;
+  }
