@@ -15,7 +15,8 @@ export class RegisterComponent {
   registerForm = this.fb.group({
     username: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
-    password: ['', Validators.required]
+    password: ['', Validators.required],
+ 
   });
 
   constructor(
@@ -29,7 +30,7 @@ onRegister() {
     const newUser = {
       username: this.registerForm.value.username!,
       email: this.registerForm.value.email!,
-      password: this.registerForm.value.password!
+      password: this.registerForm.value.password!,
     };
 
     this.auth.register(newUser).subscribe({

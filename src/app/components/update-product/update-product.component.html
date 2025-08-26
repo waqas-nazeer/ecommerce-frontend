@@ -1,0 +1,35 @@
+<div class="container mt-4">
+  <h2>Update Product</h2>
+
+  <form [formGroup]="productForm" (ngSubmit)="updateProduct()">
+    <div class="mb-3">
+      <label>Name</label>
+      <input type="text" class="form-control" formControlName="name" />
+    </div>
+
+    <div class="mb-3">
+      <label>Description</label>
+      <textarea class="form-control" formControlName="description"></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label>Price</label>
+      <input type="number" class="form-control" formControlName="price" />
+    </div>
+
+    <div class="mb-3">
+      <label>Stock</label>
+      <input type="number" class="form-control" formControlName="stock" />
+    </div>
+
+    <div class="mb-3">
+      <label>Image</label>
+      <input type="file" class="form-control" (change)="onFileChange($event)" />
+      <div *ngIf="currentImage" class="mt-2">
+        <img [src]="currentImage" alt="Product Image" class="img-thumbnail" width="200" />
+      </div>
+    </div>
+
+    <button class="btn btn-primary" type="submit" [disabled]="productForm.invalid">Update Product</button>
+  </form>
+</div>
