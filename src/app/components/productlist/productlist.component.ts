@@ -25,6 +25,7 @@ export class ProductlistComponent implements OnInit, OnDestroy {
   private searchSub?: Subscription;
   isAdmin : boolean = false;
   isUser : boolean = false;
+  superAdmin : boolean = false;
 
   constructor(
     private productService: ProductService,
@@ -36,9 +37,11 @@ export class ProductlistComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-  const role = this.auth.getUserRole(); // get the role from JWT or AuthService
-  this.isAdmin = role === 'admin';
+  const role = this.auth.getUserRole()?. toLowerCase(); // get the role from JWT or AuthService
+  this.isAdmin = role === 'admin' || role ==='superadmin';
   this.isUser = role === 'user';
+  this.superAdmin = role === 'superadmin'
+  
     this.loadProducts();
     this.searchSub = this.search.query$.subscribe(q => this.applyFilter(q));
   }
@@ -65,13 +68,12 @@ export class ProductlistComponent implements OnInit, OnDestroy {
 
 
   async deleteProduct(id: number) {
-  const role = this.auth.getUserRole();
-  if (role !== 'admin') {
-    this.toast.error('Only admins can delete products');
+  const role = this.auth.getUserRole()?.toLowerCase();
+  if (role !== 'admin' && role !== 'superadmin') {
+    this.toast.error('Only admins or Superadmin can delete products');
     return;
   }
-
-  if (!this.isAdmin) return this.toast.error('Access denied: Admin only');
+  if (!this.isAdmin && !this.superAdmin) return this.toast.error('Access denied: Admin only');
 
   // ✅ Await the confirm toast
   const confirmed = await this.toast.confirm(

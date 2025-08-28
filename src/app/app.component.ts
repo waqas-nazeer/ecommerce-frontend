@@ -21,7 +21,7 @@
     private cartSub?: Subscription;
     currentYear = new Date().getFullYear();
     
-    constructor(private auth: AuthService, private search: SearchService, private cart: CartService) {}
+    constructor(public auth: AuthService, private search: SearchService, private cart: CartService) {}
 
     isLoggedIn(): boolean {
       return this.auth.isLoggedIn();
@@ -31,6 +31,7 @@
       this.auth.logout();
       this.cartCount = 0;
     }
+    
 
     onSearch(query: string): void {
       this.searchQuery = query;

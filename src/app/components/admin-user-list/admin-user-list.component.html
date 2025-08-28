@@ -1,0 +1,37 @@
+ <div class="container mt-5">
+    <h2 class="mb-4">User Management</h2>
+
+    <table class="table table-bordered table-striped">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Basic Role</th>
+          <th *ngIf="auth.isSuperAdmin()">Change Role</th>
+          <th>Created At</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let u of users">
+              <ng-container *ngIf="u.role !== 'superAdmin'"></ng-container>
+          <td>{{ u.id }}</td>
+          <td>{{ u.username }}</td>
+          <td>{{ u.email }}</td>
+          <td><span class="badge bg-primary">{{ u.role }}</span></td>
+     
+          <td *ngIf="auth.isSuperAdmin()">
+  <select class="form-select form-select-sm"
+        [value]="u.role"
+        (change)="onRoleChange(u, $event)">
+  <option value="user">User</option>
+  <option value="admin">Admin</option>
+</select>
+</td>
+   <td>{{ u.created_at | date:'short' }}</td>
+    <td> <button class="btn btn-danger" (click)="deleteUser(u.id)">Delete</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

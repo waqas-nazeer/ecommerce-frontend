@@ -1,7 +1,10 @@
+
+
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -41,5 +44,38 @@ export class AuthService {
   isLoggedIn(): boolean {
     return !!this.getToken();
   }
-}
 
+  getUserRole(): string | null {
+    const token = this.getToken();
+    if (!token) return null;
+
+    try {
+      const decoded: any = jwtDecode(token); 
+      console.log('Decoded JWT:', decoded);
+      return decoded.role || null;
+    } catch (err) {
+      console.error('Failed to decode token', err);
+      return null;
+    }
+  }
+
+ 
+  hasRole(allowedRoles: string[]): boolean {
+    const role = this.getUserRole();
+    return role ? allowedRoles.includes(role) : false;
+  }
+
+  // ✅ Check if admin
+  isAdmin(): boolean {
+    const role = this.getUserRole();
+    return role === 'admin' || role === 'superAdmin';
+  }
+
+  isUser(): boolean {
+    return this.getUserRole() === 'user';
+  }
+
+  isSuperAdmin(): boolean {
+    return this.getUserRole() === 'superAdmin';
+  }
+}

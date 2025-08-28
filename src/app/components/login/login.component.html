@@ -1,82 +1,82 @@
 
-<div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-6 col-lg-5">
-      <div class="card shadow-lg border-0">
-        <div class="card-header bg-gradient-primary text-white text-center py-4">
-          <div class="mb-3">
-            <i class="bi bi-person-circle" style="font-size: 3rem;"></i>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-5">
+        <div class="card shadow-lg border-0">
+          <div class="card-header bg-gradient-primary text-white text-center py-4">
+            <div class="mb-3">
+              <i class="bi bi-person-circle" style="font-size: 3rem;"></i>
+            </div>
+            <h3 class="mb-0 fw-bold">Welcome Back</h3>
+            <p class="mb-0 opacity-75">Sign in to your account</p>
           </div>
-          <h3 class="mb-0 fw-bold">Welcome Back</h3>
-          <p class="mb-0 opacity-75">Sign in to your account</p>
-        </div>
-        <div class="card-body p-4">
-          <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-            <!-- Email Field -->
-            <div class="mb-4">
-              <label for="email" class="form-label fw-semibold">
-                <i class="bi bi-envelope me-2"></i>Email Address
-              </label>
-              <input 
-                type="email" 
-                class="form-control form-control-lg" 
-                id="email"
-                formControlName="email"
-                [class.is-invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
-                placeholder="Enter your email"
-                autocomplete="email">
-              <div class="invalid-feedback" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
-                <span *ngIf="loginForm.get('email')?.errors?.['required']">Email is required</span>
-                <span *ngIf="loginForm.get('email')?.errors?.['email']">Please enter a valid email address</span>
+          <div class="card-body p-4">
+            <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+              <!-- Email Field -->
+              <div class="mb-4">
+                <label for="email" class="form-label fw-semibold">
+                  <i class="bi bi-envelope me-2"></i>Email Address
+                </label>
+                <input 
+                  type="email" 
+                  class="form-control form-control-lg" 
+                  id="email"
+                  formControlName="email"
+                  [class.is-invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+                  placeholder="Enter your email"
+                  autocomplete="email">
+                <div class="invalid-feedback" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+                  <span *ngIf="loginForm.get('email')?.errors?.['required']">Email is required</span>
+                  <span *ngIf="loginForm.get('email')?.errors?.['email']">Please enter a valid email address</span>
+                </div>
               </div>
-            </div>
 
-            <!-- Password Field -->
-            <div class="mb-4">
-              <label for="password" class="form-label fw-semibold">
-                <i class="bi bi-lock me-2"></i>Password
-              </label>
-              <input 
-                type="password" 
-                class="form-control form-control-lg" 
-                id="password"
-                formControlName="password"
-                [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
-                placeholder="Enter your password"
-                autocomplete="current-password">
-              <div class="invalid-feedback" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
-                <span *ngIf="loginForm.get('password')?.errors?.['required']">Password is required</span>
+              <!-- Password Field -->
+              <div class="mb-4">
+                <label for="password" class="form-label fw-semibold">
+                  <i class="bi bi-lock me-2"></i>Password
+                </label>
+                <input 
+                  type="password" 
+                  class="form-control form-control-lg" 
+                  id="password"
+                  formControlName="password"
+                  [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+                  placeholder="Enter your password"
+                  autocomplete="current-password">
+                <div class="invalid-feedback" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+                  <span *ngIf="loginForm.get('password')?.errors?.['required']">Password is required</span>
+                </div>
               </div>
+
+              <!-- Submit Button -->
+              <div class="d-grid mb-4">
+                <button 
+                  type="submit" 
+                  class="btn btn-primary btn-lg fw-semibold" 
+                  [disabled]="loginForm.invalid || loginForm.pristine">
+                  <i class="bi bi-box-arrow-in-right me-2"></i>
+                  Sign In
+                </button>
+              </div>
+            </form>
+
+            <!-- Divider -->
+            <div class="text-center mb-4">
+              <span class="text-muted">or</span>
             </div>
 
-            <!-- Submit Button -->
-            <div class="d-grid mb-4">
-              <button 
-                type="submit" 
-                class="btn btn-primary btn-lg fw-semibold" 
-                [disabled]="loginForm.invalid || loginForm.pristine">
-                <i class="bi bi-box-arrow-in-right me-2"></i>
-                Sign In
-              </button>
+            <!-- Register Link -->
+            <div class="text-center">
+              <p class="mb-0">
+                Don't have an account? 
+                <a routerLink="/register" class="text-decoration-none fw-semibold">
+                  Create one here
+                </a>
+              </p>
             </div>
-          </form>
-
-          <!-- Divider -->
-          <div class="text-center mb-4">
-            <span class="text-muted">or</span>
-          </div>
-
-          <!-- Register Link -->
-          <div class="text-center">
-            <p class="mb-0">
-              Don't have an account? 
-              <a routerLink="/register" class="text-decoration-none fw-semibold">
-                Create one here
-              </a>
-            </p>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>

@@ -10,3 +10,7 @@
 
 .brand-logo { font-size: 1.25rem; }
 
+.disabled {
+  pointer-events: none; /* disable clicks */
+  opacity: 0.5;         /* faded look */
+}

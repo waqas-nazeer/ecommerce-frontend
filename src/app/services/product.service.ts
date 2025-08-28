@@ -37,7 +37,7 @@
 
       getProductById(id: number):Observable<any>{
 
-        return this.http.get(`${this.apiUrl}/${id}`);
+        return this.http.get(`${this.apiUrl}/${id}`, this.getHeaders());
       }
 
 
@@ -57,4 +57,12 @@
       deleteProduct(id:number):Observable<any>{
     return this.http.delete(`${this.apiUrl}/${id}`, this.getHeaders())
       }
+
+//       updateProduct(id: number, data: FormData) {
+//   return this.http.put(`http://localhost:3000/api/products/${id}`, data);
+// }
+
+// getProductById(id: number) {
+//   return this.http.get(`http://localhost:3000/api/products/${id}`);
+// }
     }

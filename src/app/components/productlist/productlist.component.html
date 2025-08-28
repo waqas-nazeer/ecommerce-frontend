@@ -69,10 +69,10 @@
               </button>
 
               <!-- Admin can update & delete -->
-              <button *ngIf="isAdmin" class="btn btn-sm btn-warning me-1" (click)="goToUpdateProduct(product.id)">
+              <button *ngIf="isAdmin || superAdmin" class="btn btn-sm btn-warning me-1" (click)="goToUpdateProduct(product.id)">
                 Update
               </button>
-              <button *ngIf="isAdmin" class="btn btn-sm btn-outline-danger" (click)="deleteProduct(product.id)">
+              <button *ngIf="isAdmin || superAdmin " class="btn btn-sm btn-outline-danger" (click)="deleteProduct(product.id)">
                 Delete
               </button>
 

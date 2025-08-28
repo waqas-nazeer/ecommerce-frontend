@@ -36,7 +36,7 @@ onRegister() {
     this.auth.register(newUser).subscribe({
       next: () => {
         this.toast.success('Registration successful! Please login.');
-        this.router.navigate(['/login']);
+        this.router.navigate(['/products']);
       },
       error: (err: any) => {
         this.toast.error(err.error.message || 'Registration failed');
