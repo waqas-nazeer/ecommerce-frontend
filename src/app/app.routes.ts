@@ -1,5 +1,5 @@
   import { Routes } from '@angular/router';
-  import { DashboardComponent } from './components/dashboard/dashboard.component';
+  // import { DashboardComponent } from './components/dashboard/dashboard.component';
   import { LoginComponent } from './components/login/login.component';
   import { RegisterComponent } from './components/register/register.component';
   import { authGuard } from './guards/auth.guard';
@@ -10,6 +10,9 @@
 import { PlaceOrderComponent } from './components/place-order/place-order.component';
 import { UpdateProductComponent } from './components/update-product/update-product.component';
 import { AdminUserListComponent } from './components/admin-user-list/admin-user-list.component';
+import { ProductStatsComponent } from './components/product-stats/product-stats.component';
+import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
+import { InvoiceComponent } from './components/invoice/invoice.component';
 
   export const routes: Routes = [
 
@@ -19,13 +22,26 @@ import { AdminUserListComponent } from './components/admin-user-list/admin-user-
     { path: 'register', component: RegisterComponent, canActivate: [guestGuard] },
 
      // ✅ Role-based
-  { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard], data: { roles: [ 'user','admin','superAdmin'] } },
+
+       { 
+    path: 'dashboard', 
+    component: AdminDashboardComponent, canActivate: [authGuard], data: { roles: ['admin', 'superAdmin'] } },
+  // { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard], data: { roles: [ 'user','admin','superAdmin'] } },
+
   { path: 'products', component: ProductlistComponent, canActivate: [authGuard], data: { roles: ['user', 'admin','superAdmin'] } },
+
   { path: 'addproducts', component: AddProductComponent, canActivate: [authGuard], data: { roles: ['admin', 'superAdmin'] } },
+
   { path: 'cart', component: CartComponent, canActivate: [authGuard], data: { roles: ['user'] } },
+
   { path: 'place-order', component: PlaceOrderComponent, canActivate: [authGuard], data: { roles: ['user'] } },
 
   { path: 'updateproduct/:id',  component: UpdateProductComponent, canActivate: [authGuard], data: { roles: ['admin','superAdmin'] }},
+
   {path: 'admin/users', component : AdminUserListComponent, canActivate :[authGuard], data : {roles : ['superAdmin']}},
+  { 
+  path: 'product-stats',  component: ProductStatsComponent, canActivate: [authGuard], data: { roles: ['admin', 'superAdmin'] }  },
+
+  { path: 'invoice/:id', component: InvoiceComponent, canActivate: [authGuard], data: { roles: ['user', 'admin', 'superAdmin'] } }
 
   ];

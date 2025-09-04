@@ -33,7 +33,12 @@ onLogin() {
     this.auth.login(credentials).subscribe({
       next: (res: any) => {
         this.auth.setToken(res.token);
-        this.router.navigate(['/products'], { replaceUrl: true });  
+         // ✅ Role-based redirect
+        if (this.auth.isSuperAdmin() || this.auth.isAdmin()) {
+          this.router.navigate(['/dashboard'], { replaceUrl: true });
+        } else {
+          this.router.navigate(['/products'], { replaceUrl: true });
+        }
       },
       error: (err: any) => {
         this.toast.error(err.error.message || 'Login failed');

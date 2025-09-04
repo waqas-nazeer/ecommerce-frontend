@@ -1,11 +1,13 @@
   import { Component, OnDestroy, OnInit } from '@angular/core';
-  import { RouterLink, RouterOutlet } from '@angular/router';
-  import { CommonModule } from '@angular/common';
+  import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
+  import { CommonModule, Location } from '@angular/common';
   import { AuthService } from './services/auth.service';
   import { SearchService } from './services/search.service';
   import { CartService } from './services/cart.service';
+  import {  filter } from 'rxjs/operators';
   import { Subscription } from 'rxjs';
   import { ToastContainerComponent } from './components/toast-container/toast-container.component';
+
 
   @Component({
     selector: 'app-root',
@@ -20,8 +22,15 @@
     cartCount = 0;
     private cartSub?: Subscription;
     currentYear = new Date().getFullYear();
+    showBackButton = false;
     
-    constructor(public auth: AuthService, private search: SearchService, private cart: CartService) {}
+    constructor( 
+      public auth: AuthService, 
+      private search: SearchService, 
+      private cart: CartService,
+      private location: Location,
+      private router : Router
+    ) {}
 
     isLoggedIn(): boolean {
       return this.auth.isLoggedIn();
@@ -46,8 +55,39 @@
         const list = items || [];
         this.cartCount = list.reduce((sum: number, item: any) => sum + (item?.quantity ?? 1), 0);
       });
+
+          // Detect route changes and toggle back button
+      this.router.events
+      .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
+      .subscribe((event : NavigationEnd) => {
+        const currentUrl = event.urlAfterRedirects;
+
+        if (this.auth.isUser() && currentUrl === '/products') {
+          this.showBackButton = false
+        } else if((this.auth.isAdmin() || this.auth.isSuperAdmin()) && currentUrl === '/dashboard'){
+            this.showBackButton = false
+        }else {
+          this.showBackButton = true;
+        }
+      });
     }
 
+      
+
+  goBack(): void{
+ this.location.back();
+  }
+  goHome(): void{
+ if (this.auth.isUser()) {
+  this.router.navigate(['/products'])
+ } else if(this.auth.isSuperAdmin() ||this.auth.isAdmin()){
+  this.router.navigate(['/dashboard'])
+ }else {
+    // fallback (e.g., not logged in)
+    this.router.navigate(['/login']);
+  }
+    
+  }
     ngOnDestroy(): void {
       this.cartSub?.unsubscribe();
     }

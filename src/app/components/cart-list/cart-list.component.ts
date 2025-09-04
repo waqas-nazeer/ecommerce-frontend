@@ -18,17 +18,23 @@ export class CartComponent implements OnInit {
   cartItems: any[] = [];
   cartTotal = 0;
   selectedTotal = 0;
-  private selectedIds = new Set<number>();
+   selectedIds = new Set<number>();
 
   constructor(
     private cartService: CartService, 
     private router:Router, 
-    private toast: ToastService) {}
+    private toast: ToastService 
+    ) {}
 
   ngOnInit(): void {
     // Subscribe to the BehaviorSubject for live updates
+        // Subscribe to live updates
     this.cartService.cartItems$.subscribe(items => {
-      this.cartItems = items;
+      // Ensure each item has a consistent internal _id
+      this.cartItems = (items || []).map(item => ({
+        ...item,
+        _id: item.productId ?? item.product?.id
+      }));
       this.calculateTotal();
     });
     
@@ -45,18 +51,21 @@ export class CartComponent implements OnInit {
 }
 
   incrementQuantity(item: any) {
-    const productId = item?.productId ?? item?.product?.id;
+    const productId = item?._id;
     if (!productId) { return; }
     this.cartService.addToCart(productId, 1).subscribe({
       next: () => this.cartService.refreshCart(),
       error: err => console.error(err)
     });
     // Optimistic UI update
-    if (typeof item.quantity === 'number') { item.quantity += 1; this.calculateTotal(); }
+    if (typeof item.quantity === 'number') {
+       item.quantity += 1; 
+       this.calculateTotal();
+       }
   }
 
   decrementQuantity(item: any) {
-    const productId = item?.productId ?? item?.product?.id;
+    const productId = item?._id;
     if (!productId) { return; }
     if ((item?.quantity ?? 1) <= 1) {
       // Remove item if quantity would hit 0
@@ -90,11 +99,13 @@ export class CartComponent implements OnInit {
   }
 
   checkoutCart() {
-    const selectedItems = (this.cartItems || []).filter(i => this.selectedIds.has(i?.productId ?? i?.product?.id));
+    const selectedItems = (this.cartItems || []).filter(i => this.selectedIds.has(i._id));
     if (!selectedItems || selectedItems.length === 0) {
       this.toast.info('Select at least one item to checkout');
       return;
     }
+    
+    localStorage.setItem('checkoutItems', JSON.stringify(selectedItems));
     this.router.navigate(['/place-order'], { state: { selectedItems } });
   }
 
@@ -105,7 +116,7 @@ export class CartComponent implements OnInit {
       return sum + unit * qty;
     }, 0);
     this.selectedTotal = (this.cartItems || []).reduce((sum, it: any) => {
-      const id = it?.productId ?? it?.product?.id;
+      const id = it?._id;
       if (!this.selectedIds.has(id)) { return sum; }
       const unit = Number(it?.product?.price) || 0;
       const qty = Number(it?.quantity) || 0;
@@ -119,13 +130,16 @@ orderSingleItem(item: any) {
 }
 
 toggleSelection(item: any, checked: boolean) {
-  const id = item?.productId ?? item?.product?.id;
+
+   const id = item._id
   if (id == null) { return; }
   if (checked) {
     this.selectedIds.add(id);
   } else {
     this.selectedIds.delete(id);
   }
+  
+ 
   this.calculateTotal();
 }
 }

@@ -1,0 +1,52 @@
+
+
+<div class="container text-center mt-4">
+<h2 class="mb-4 text-center">
+  Welcome, {{ username ? username + ' (' + (role | titlecase) + ')' : (role | titlecase) }}
+</h2>
+  <div class="row g-3">
+    <!-- Add Product Card -->
+    <div class="col-md-4" *ngIf="auth.isAdmin() || auth.isSuperAdmin()">
+      <div class="card shadow-sm h-100">
+        <div class="card-body d-flex flex-column justify-content-center align-items-center">
+          <h5 class="card-title">Add Product</h5>
+          <p class="card-text">Add new products to the store catalog.</p>
+          <a [routerLink]="['/addproducts']" class="btn btn-primary mt-auto">Go</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Statistics Card -->
+    <div class="col-md-4" *ngIf="auth.isAdmin() || auth.isSuperAdmin()">
+      <div class="card shadow-sm h-100">
+        <div class="card-body d-flex flex-column justify-content-center align-items-center">
+          <h5 class="card-title">Product Statistics</h5>
+          <p class="card-text">View analytics for your products.</p>
+          <a [routerLink]="['/product-stats']" class="btn btn-primary mt-auto">Go</a>
+        </div>
+      </div>
+    </div>
+
+        <!-- Products List Card -->
+    <div class="col-md-3" *ngIf="auth.isAdmin() || auth.isSuperAdmin()">
+      <div class="card shadow-sm h-100">
+        <div class="card-body d-flex flex-column justify-content-center align-items-center">
+          <h5 class="card-title">Products</h5>
+          <p class="card-text">View and manage all products.</p>
+          <a [routerLink]="['/products']" class="btn btn-primary mt-auto">Go</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Details Card (SuperAdmin Only) -->
+    <div class="col-md-4" *ngIf="auth.isSuperAdmin()">
+      <div class="card shadow-sm h-100">
+        <div class="card-body d-flex flex-column justify-content-center align-items-center">
+          <h5 class="card-title">User Details</h5>
+          <p class="card-text">Manage and view all users.</p>
+          <a [routerLink]="['/admin/users']" class="btn btn-primary mt-auto">Go</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

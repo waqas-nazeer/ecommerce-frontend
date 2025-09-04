@@ -1,0 +1,11 @@
+.container {
+  font-family: Arial, sans-serif;
+}
+
+.table th, .table td {
+  vertical-align: middle;
+}
+
+.bg-dark th, .bg-dark td {
+  font-weight: bold;
+}

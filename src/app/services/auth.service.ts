@@ -59,7 +59,19 @@ export class AuthService {
     }
   }
 
- 
+ getUsername(): string | null {
+  const token = this.getToken();
+  if (!token) return null;
+
+  try {
+    const decoded: any = jwtDecode(token);
+    console.log('Decoded JWT:', decoded); // check what fields exist
+    return decoded.username ||  null; // adjust depending on your JWT payload
+  } catch (err) {
+    console.error('Failed to decode token', err);
+    return null;
+  }
+}
   hasRole(allowedRoles: string[]): boolean {
     const role = this.getUserRole();
     return role ? allowedRoles.includes(role) : false;

@@ -48,7 +48,7 @@
                 placeholder="Enter your full name">
               <div class="invalid-feedback" *ngIf="deliveryForm.get('name')?.invalid && deliveryForm.get('name')?.touched">
                 <span *ngIf="deliveryForm.get('name')?.errors?.['required']">Name is required</span>
-                <span *ngIf="deliveryForm.get('name')?.errors?.['minlength']">Name must be at least 2 characters</span>
+             <span *ngIf="deliveryForm.get('name')?.errors?.['pattern']">Name can contain only letters and spaces</span>
               </div>
             </div>
             <div class="col-md-6 mb-3">
@@ -62,7 +62,7 @@
                 placeholder="Enter your phone number">
               <div class="invalid-feedback" *ngIf="deliveryForm.get('phone')?.invalid && deliveryForm.get('phone')?.touched">
                 <span *ngIf="deliveryForm.get('phone')?.errors?.['required']">Phone number is required</span>
-                <span *ngIf="deliveryForm.get('phone')?.errors?.['pattern']">Please enter a valid phone number</span>
+             <span *ngIf="deliveryForm.get('phone')?.errors?.['pattern']">Enter a valid phone number (7-15 digits)</span>
               </div>
             </div>
           </div>
@@ -78,7 +78,7 @@
                 placeholder="Enter your house/street address">
               <div class="invalid-feedback" *ngIf="deliveryForm.get('house')?.invalid && deliveryForm.get('house')?.touched">
                 <span *ngIf="deliveryForm.get('house')?.errors?.['required']">Address is required</span>
-                <span *ngIf="deliveryForm.get('house')?.errors?.['minlength']">Address must be at least 5 characters</span>
+                <!-- <span *ngIf="deliveryForm.get('house')?.errors?.['pattern']">Name can contain only letters and spaces</span> -->
               </div>
             </div>
             <div class="col-md-6 mb-3">
@@ -92,7 +92,7 @@
                 placeholder="Enter your country">
               <div class="invalid-feedback" *ngIf="deliveryForm.get('country')?.invalid && deliveryForm.get('country')?.touched">
                 <span *ngIf="deliveryForm.get('country')?.errors?.['required']">Country is required</span>
-                <span *ngIf="deliveryForm.get('country')?.errors?.['minlength']">Country must be at least 2 characters</span>
+                <!-- <span *ngIf="deliveryForm.get('country')?.errors?.['minlength']">Country must be at least 2 characters</span> -->
               </div>
             </div>
           </div>

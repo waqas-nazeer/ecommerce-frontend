@@ -1,0 +1,84 @@
+<ng-template #loadingTemplate>
+  <p class="text-center mt-5">Loading invoice...</p>
+</ng-template>
+
+<div  id="invoice" class="container mt-4" *ngIf="!loading && order; else loadingTemplate">
+<div class="d-flex justify-content-end align-items-center">
+    <button class="btn btn-primary mt-3" (click)="downloadInvoice()">Download PDF</button>
+</div>
+<div *ngIf="error" class="alert alert-danger mt-3">{{ error }}</div>
+
+<div class="container my-5 p-4 border rounded shadow-sm bg-white">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex align-items-center">
+      <div class="bg-primary text-white p-3 rounded me-2">
+        <i class="bi bi-cart"></i>
+      </div>
+      <h3 class="mb-0">E-commerce </h3>
+    </div>
+    <h3 class="text-white bg-dark p-2 rounded">INVOICE</h3>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <strong>Invoice Number:</strong> {{order.id}} <br>
+      <strong>Date:</strong> {{order.createdAt | date:'medium'}}
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <h5>Bill from:</h5>
+      <p>{{invoice.billFrom.name}}<br>{{invoice.billFrom.address}}<br>{{invoice.billFrom.phone}}</p>
+    </div>
+    <div class="col-md-6">
+      <h5>Bill to:</h5>
+      <p>Name : {{invoice.billTo.name}}<br>Address : {{invoice.billTo.address}}<br>Contact No. {{invoice.billTo.phone}}</p>
+    </div>
+  </div>
+
+  <table class="table table-bordered" *ngIf="order.items.length">
+    <thead class="table-light">
+      <tr>
+        <th>Item</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Sub Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of order.items">
+        <td>{{ item.product.name }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.price | currency }}</td>
+        <td>{{ (item.price * item.quantity) | currency }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="row justify-content-end">
+    <div class="col-md-4">
+      <table class="table table-borderless">
+        <tr>
+          <th>Discount:</th>
+          <td>{{invoice.discount}}</td>
+        </tr>
+        <tr>
+          <th>Tax:</th>
+          <td>{{invoice.tax}}</td>
+        </tr>
+        <tr>
+          <th>Paid:</th>
+          <td>{{invoice.paid}}</td>
+        </tr>
+        <tr class="bg-dark text-white">
+          <th>Total</th>
+          <td>{{getTotal() | currency}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+</div>
+

@@ -14,6 +14,8 @@ export class CartService {
   private cartItemsSubject = new BehaviorSubject<any[]>([]);
   cartItems$ = this.cartItemsSubject.asObservable();
 
+  checkoutItems: any = [];
+
   constructor(private http: HttpClient) { }
 
   // ✅ Get token from localStorage (same key as AuthService)
@@ -57,4 +59,8 @@ clearCart(): Observable<any> {
       .pipe(tap(() => this.refreshCart()));
   }
 
+  setCartItems(items :any[]){
+    localStorage.setItem('cart',JSON.stringify(items));
+    this.cartItemsSubject.next(items)
+  }
 }

@@ -30,30 +30,38 @@ export class PlaceOrderComponent implements OnInit {
 
  ngOnInit() {
     this.initDeliveryForm();
-    // Check if a product was passed via router state
-    const nav = this.router.getCurrentNavigation();
-    const product = nav?.extras?.state?.['product'];
 
-    if (product && this.singleOrder) {
-      this.cartItems = [product]; // Only this product
-    } else {
-      // Full cart order
-      this.cartService.cartItems$.subscribe(items => {
-        this.cartItems = items;
-        this.calculateTotal();
-      });
-      this.cartService.refreshCart();
-    }
+  const nav = this.router.getCurrentNavigation();
+  const state = nav?.extras?.state;
 
-    this.calculateTotal();
+  const product = state?.['product'];
+  this.singleOrder = state?.['singleOrder'] || false;
+  const selectedItems = state?.['selectedItems'];
+
+  if (product && this.singleOrder) {
+    // Buy now → single product
+    this.cartItems = [product];
+  } else if (selectedItems && selectedItems.length > 0) {
+    // Checkout from cart with checkboxes
+    this.cartItems = selectedItems;
+  } else {
+    // Default → load full cart
+    let items = localStorage.getItem('checkoutItems');
+    this.cartItems = items ? JSON.parse(items) : [];
+    this.cartService.refreshCart();
   }
+
+  // this.cartItems = this.cartService.checkoutItems;
+
+  this.calculateTotal();
+}
 
   private initDeliveryForm() {
     this.deliveryForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(2)]],
-      phone: ['', [Validators.required, Validators.pattern(/^\+?[\d\s\-\(\)]+$/)]],
-      house: ['', [Validators.required, Validators.minLength(5)]],
-      country: ['', [Validators.required, Validators.minLength(2)]]
+      name: ['', [Validators.required, Validators.minLength(3),Validators.pattern(/^[a-zA-Z\s]+$/)]],
+      phone: ['+92', [Validators.required, Validators.pattern(/^\+?\d{7,15}$/)]],
+      house: ['', [Validators.required,]],
+      country: ['Pakistan', [Validators.required,]]
     });
     
     this.deliveryForm.statusChanges.subscribe(status => {
@@ -78,7 +86,7 @@ export class PlaceOrderComponent implements OnInit {
 
     // Prepare items for backend
     const orderItems = this.cartItems.map(item => ({
-      productId: item.productId,
+      productId:  item._id || item.product?.id,
       quantity: item.quantity,
       price: item.product.price
     }));
@@ -88,22 +96,17 @@ export class PlaceOrderComponent implements OnInit {
       deliveryDetails: this.deliveryForm.value
     };
 
-    this.orderService.placeOrder(orderItems).subscribe({
-         next: () => {
+    this.orderService.placeOrder(orderData).subscribe({
+         next: (res : any) => {
         this.toast.success(`Order placed successfully! Total: ${this.totalAmount}`);
 
-     // Remove ordered items from cart
-        if (this.singleOrder) {
-          // Remove only this item
-          this.cartService.removeFromCart(orderItems[0].productId).subscribe(() => {
-            this.cartService.refreshCart();
-          });
-        } else {
-          // Clear entire cart
-          this.cartService.clearCart().subscribe(() => this.cartService.refreshCart());
-        }
+     //Remove only purchased items from cart
 
-        this.router.navigate(['/products']); // Redirect to products page
+     const purchasedIds = orderItems.map(item => item.productId);
+     const remainingItems = this.cartItems.filter(item => !purchasedIds.includes(item._id || item.product?.id)
+    );
+    this.cartService.setCartItems(remainingItems);
+        this.router.navigate(['/invoice', res.orderId]); // Redirect to products page
       },
       error: err => {
         console.error('Error placing order:', err);

@@ -19,7 +19,7 @@
         const token = this.auth.getToken();
         return {headers: new HttpHeaders({
           Authorization : `Bearer ${token}`,
-          //  'Content-Type': 'application/json'
+          //  'Content-Type': 'application/json'  
         
         },
           
@@ -58,11 +58,15 @@
     return this.http.delete(`${this.apiUrl}/${id}`, this.getHeaders())
       }
 
-//       updateProduct(id: number, data: FormData) {
-//   return this.http.put(`http://localhost:3000/api/products/${id}`, data);
-// }
+    
+      // Product Stats
 
-// getProductById(id: number) {
-//   return this.http.get(`http://localhost:3000/api/products/${id}`);
-// }
+      getProductStats():Observable<any>{
+      
+        const token = this.auth.getToken();
+
+        const headers =  new HttpHeaders().set('Authorization', `Bearer ${token}`);
+        return this.http.get(`${this.apiUrl}/stats`, {headers})
+
+      }
     }
