@@ -35,7 +35,6 @@ import { InvoiceComponent } from './components/invoice/invoice.component';
   { path: 'cart', component: CartComponent, canActivate: [authGuard], data: { roles: ['user'] } },
 
   { path: 'place-order', component: PlaceOrderComponent, canActivate: [authGuard], data: { roles: ['user'] } },
-
   { path: 'updateproduct/:id',  component: UpdateProductComponent, canActivate: [authGuard], data: { roles: ['admin','superAdmin'] }},
 
   {path: 'admin/users', component : AdminUserListComponent, canActivate :[authGuard], data : {roles : ['superAdmin']}},
@@ -45,3 +44,4 @@ import { InvoiceComponent } from './components/invoice/invoice.component';
   { path: 'invoice/:id', component: InvoiceComponent, canActivate: [authGuard], data: { roles: ['user', 'admin', 'superAdmin'] } }
 
   ];
+  // {path: 'admin/users', component : AdminUserListComponent, canActivate :[authGuard], data : {roles : ['superAdmin']}},];

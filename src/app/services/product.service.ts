@@ -69,4 +69,10 @@
         return this.http.get(`${this.apiUrl}/stats`, {headers})
 
       }
+      getFeaturedProducts():Observable<any[]> {
+        return this.http.get<any[]>(`${this.apiUrl}/featured`)
+      }
+
+
     }
+

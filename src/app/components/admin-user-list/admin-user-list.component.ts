@@ -55,9 +55,6 @@ export class AdminUserListComponent implements OnInit {
     const confirm = await this.toast.confirm(`Change role of ${user.username} to ${newRole}?`)
    if (!confirm) return;
     this.userService.changeUserRole(user.id, newRole).subscribe({
-      // next: () => {
-      //   user.role = newRole; // Update role inline
-      //   this.toast.success(`Role updated to ${newRole}`);
        next: () => {
       // Update the user's role inline
       user.role = newRole; // <-- res.user is returned from backend

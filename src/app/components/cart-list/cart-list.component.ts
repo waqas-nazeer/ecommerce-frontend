@@ -68,8 +68,6 @@ export class CartComponent implements OnInit {
     const productId = item?._id;
     if (!productId) { return; }
     if ((item?.quantity ?? 1) <= 1) {
-      // Remove item if quantity would hit 0
-      // this.removeItem(productId);
       return;
     }
     // Try to reduce by 1 using add endpoint with negative quantity
